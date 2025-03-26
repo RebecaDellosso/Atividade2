@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PratoFeito - Restaurante</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/swiper@9.0.0/swiper-bundle.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <h1>Prato Feito</h1>
+        <nav class="nav">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Cardápio</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Sabor e Tradição em Cada Prato</h1>
+        <p>Receitas únicas com ingredientes frescos.</p>
+    </section>
+
+    
+
+    <section class="services">
+        <h2>Pratos</h2>
+
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="card">Pratos Especiais</div>
+                    <img src="img1.webp" alt="Prato Especial" class="d-block w-100" width="800px" height="400px">
+                </div>
+                <div class="swiper-slide">
+                    <div class="card">A Moda da Casa</div>
+                    <img src="img2.jpeg" alt="Sobremesa Artesanal" class="d-block w-100" width="800px" height="400px">
+                </div>
+                <div class="swiper-slide">
+                    <div class="card">Mais Pedido</div>
+                    <img src="img3.jpg" alt="Drink Exclusivo" class="d-block w-100" width="800px" height="400px">
+                </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+
+        </div>
+    </section>
+    
+    <section class="cart">
+        <h2>Carrinho de Compras</h2>
+        <ul id="cart-items"></ul>
+        <p>Total: R$ <span id="total-price">0.00</span></p>
+        <button onclick="checkout()">Finalizar Pedido</button>
+    </section>
+    
+    <section class="menu">
+        <h2>Nosso Cardápio</h2>
+        <div class="menu-items">
+            <div class="item">
+                <h3>Prato Especial</h3>
+                <p>Delicioso prato feito com ingredientes frescos.</p>
+                <span>R$ 25,00</span>
+                <button onclick="addToCart('Prato Especial', 25)">Adicionar</button>
+            </div>
+            <div class="item">
+                <h3>A Moda da Casa</h3>
+                <p>Nosso prato exclusivo e mais pedido.</p>
+                <span>R$ 30,00</span>
+                <button onclick="addToCart('A Moda da Casa', 30)">Adicionar</button>
+            </div>
+            <div class="item">
+                <h3>Sobremesa Artesanal</h3>
+                <p>Uma sobremesa incrível para finalizar sua refeição.</p>
+                <span>R$ 15,00</span>
+                <button onclick="addToCart('Sobremesa Artesanal', 15)">Adicionar</button>
+            </div>
+        </div>
+    </section>
+
+   
+
+   
+
+    <footer class="footer">
+        Rua da América, 123 - (11) 98765-4321  
+        <br>
+        Siga-nos: Instagram | Facebook
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9.0.0/swiper-bundle.min.js"></script>
+    <script>
+
+    const swiper = new Swiper('.swiper-container', {
+            loop: true, 
+            autoplay: {
+                delay: 3000, 
+            },
+            pagination: {
+                el: '.swiper-pagination', 
+                clickable: true, 
+            },
+            navigation: {
+                nextEl: '.swiper-button-next', 
+                prevEl: '.swiper-button-prev', 
+            },
+            spaceBetween: 30, 
+        });
+        let cart = [];
+        let totalPrice = 0;
+
+        function addToCart(item, price) {
+            cart.push({ item, price });
+            totalPrice += price;
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById("cart-items");
+            const totalElement = document.getElementById("total-price");
+            cartItems.innerHTML = "";
+            cart.forEach((product, index) => {
+                cartItems.innerHTML += `<li>${product.item} - R$ ${product.price.toFixed(2)} 
+                <button onclick="removeFromCart(${index})">Remover</button></li>`;
+            });
+            totalElement.textContent = totalPrice.toFixed(2);
+        }
+
+        function removeFromCart(index) {
+            totalPrice -= cart[index].price;
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Seu carrinho está vazio!");
+            } else {
+                alert("Pedido finalizado com sucesso! Obrigado pela preferência.");
+                cart = [];
+                totalPrice = 0;
+                updateCart();
+            }
+        }
+    </script>
+</body>
+</html>
+
